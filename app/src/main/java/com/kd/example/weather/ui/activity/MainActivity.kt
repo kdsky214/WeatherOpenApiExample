@@ -20,7 +20,4 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initObserver() {
         mainViewModel.getCurrentWeather()
     }
-
-
-
 }

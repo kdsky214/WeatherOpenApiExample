@@ -2,7 +2,7 @@ package com.kd.example.weather.data.model
 
 import com.kd.example.weather.data.model.weather.*
 
-data class WeatherModel(
+data class ResponseWeather(
     val base: String,
     val clouds: Clouds,
     val cod: Int,
