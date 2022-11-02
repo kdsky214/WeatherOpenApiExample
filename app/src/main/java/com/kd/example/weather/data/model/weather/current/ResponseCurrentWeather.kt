@@ -1,8 +1,8 @@
-package com.kd.example.weather.data.model
+package com.kd.example.weather.data.model.weather.current
 
-import com.kd.example.weather.data.model.weather.*
+import com.kd.example.weather.data.model.weather.current.*
 
-data class ResponseWeather(
+data class ResponseCurrentWeather(
     val base: String,
     val clouds: Clouds,
     val cod: Int,

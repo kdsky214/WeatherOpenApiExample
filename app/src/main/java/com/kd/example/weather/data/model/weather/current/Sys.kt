@@ -1,4 +1,4 @@
-package com.kd.example.weather.data.model.weather
+package com.kd.example.weather.data.model.weather.current
 
 data class Sys(
     val country: String,
