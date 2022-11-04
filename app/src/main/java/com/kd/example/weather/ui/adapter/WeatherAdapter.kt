@@ -16,7 +16,7 @@ import kotlin.math.roundToInt
 class WeatherAdapter(
     private val numberOfDay:Int = 6
 ) : RecyclerView.Adapter<ViewHolder>() {
-    val isUseIconUrl = true
+    private val isUseIconUrl = true
     //list
     private var weatherDataList:MutableList<WeatherModel> = mutableListOf()
     //type
