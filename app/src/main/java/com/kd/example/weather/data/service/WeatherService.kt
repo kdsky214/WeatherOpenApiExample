@@ -15,7 +15,7 @@ interface WeatherService {
     fun getCurrentWeather(
         @Query("lat") lat: String,
         @Query("lon") lon: String,
-        @Query("APPID") APPID: String)
+        @Query("appid") appId: String)
             : Call<ResponseCurrentWeather>
 
 
@@ -23,7 +23,7 @@ interface WeatherService {
     @GET("data/2.5/forecast")
     fun getForecastWeather(
         @Query("q") locationName: String,
-        @Query("APPID") appId: String)
+        @Query("appId") appId: String)
     : Call<ResponseForecastWeather>
 
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.gson.GsonBuilder
 import com.kd.example.weather.data.model.WeatherModel
 import com.kd.example.weather.data.repository.WeatherRepository
 import com.kd.example.weather.data.model.observe
@@ -22,6 +21,7 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
     val TAG = "MainViewModel"
 
+    //weather livedata
     private var _weatherList:MutableList<WeatherModel> = mutableListOf()
     private var _weatherListMutableLiveData:MutableLiveData<List<WeatherModel>> = MutableLiveData()
     val weatherListMutableLiveData:LiveData<List<WeatherModel>> = _weatherListMutableLiveData
@@ -31,7 +31,7 @@ class MainViewModel @Inject constructor(
 //    val seoulWeatherMutableLiveData:LiveData<List<WeatherData>> = _seoulWeatherMutableLiveData
 //    private var _chicagoWeatherMutableLiveData:MutableLiveData<List<WeatherData>> = MutableLiveData()
 //    val chicagoWeatherMutableLiveData:LiveData<List<WeatherData>> = _chicagoWeatherMutableLiveData
-
+    /*위도 경도로 현재날씨 정보 가져오기*/
     fun getCurrentWeather(){
         val lat = "42.9834"
         val lon = "-81.233"
@@ -46,19 +46,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    //지역 주간날씨 정보 가져오기
+    /*지역 주간날씨 정보 가져오기*/
     fun getForecastWeather(){
         viewModelScope.launch(Dispatchers.IO){
-            //London data
-            weatherRepository.getLocationForecastWeather(LocationType.London.name).observe(
-                onSuccess ={ response->
-                    response?.let{ _weatherList.addAll(it) }
-
-                }, onError = {
-                    //TODO:예외처리
-                    Log.e(TAG," London onError = $it")
-                }
-            )
             //Seoul data
             weatherRepository.getLocationForecastWeather(LocationType.Seoul.name).observe(
                 onSuccess ={ response->
@@ -68,6 +58,16 @@ class MainViewModel @Inject constructor(
                     Log.e(TAG," London onError = $it")
                 }
             )
+            //London data
+            weatherRepository.getLocationForecastWeather(LocationType.London.name).observe(
+                onSuccess ={ response->
+                    response?.let{ _weatherList.addAll(it) }
+                }, onError = {
+                    //TODO:예외처리
+                    Log.e(TAG," London onError = $it")
+                }
+            )
+
             //Chicago data
             weatherRepository.getLocationForecastWeather(LocationType.Chicago.name).observe(
                 onSuccess ={ response->
@@ -78,7 +78,7 @@ class MainViewModel @Inject constructor(
                 }
             )
 
-            //list add livedate
+            //list add livedata
             viewModelScope.launch(Dispatchers.Main){
                 _weatherListMutableLiveData.value = _weatherList
             }
