@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WeatherOpenApiExample</string>
+    <string name="maxTemp">Max</string>
+    <string name="minTemp">Min</string>
 </resources>

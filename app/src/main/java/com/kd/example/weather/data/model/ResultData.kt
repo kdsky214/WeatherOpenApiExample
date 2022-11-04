@@ -1,4 +1,4 @@
-package com.kd.example.weather.util
+package com.kd.example.weather.data.model
 
 sealed class ResultData<out T> {
     data class Success<out T>(val data: T?) : ResultData<T>()

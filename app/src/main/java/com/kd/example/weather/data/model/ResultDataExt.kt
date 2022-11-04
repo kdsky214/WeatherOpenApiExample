@@ -1,4 +1,4 @@
-package com.kd.example.weather.util
+package com.kd.example.weather.data.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,35 +10,6 @@ import androidx.lifecycle.MutableLiveData
  *
  * Description: Extension for Result Class
  */
-
-inline fun <T> ResultData<T>.updateOnSuccess(
-    liveData: MutableLiveData<T>,
-    onError: (e: Exception) -> Unit,
-) {
-    when (this) {
-        is ResultData.Success -> liveData.value = this.data ?: return
-        is ResultData.Error -> onError(e)
-        else -> return
-    }
-}
-
-inline fun <T> ResultData<T?>.updateOnSuccess(
-    liveData: MutableLiveData<T?>,
-    defaultValue: T,
-    onError: (e: Exception) -> Unit,
-) {
-    when (this) {
-        is ResultData.Success -> {
-            data?.let {
-                liveData.value = it
-            } ?: run {
-                liveData.value = defaultValue
-            }
-        }
-        is ResultData.Error -> onError(e)
-        else -> return
-    }
-}
 
 inline fun <T> ResultData<T?>.observe(
     onSuccess: (it: T?) -> Unit,
@@ -67,17 +38,6 @@ inline fun <T> ResultData<T?>.observe(
         is ResultData.Error -> onError(e)
         else -> return
     }
-}
-
-inline fun <T> ResultData<T?>.getLiveData(onError: (e: Exception) -> Unit): LiveData<T> {
-    val liveData = MutableLiveData<T>()
-
-    when (this) {
-        is ResultData.Success -> data?.let { liveData.postValue(it) }
-        is ResultData.Error -> onError(e)
-        else -> onError(Exception("ERROR"))
-    }
-    return liveData
 }
 
 inline fun <T> ResultData<T?>.getData(onError: (e: Exception) -> Unit): T? {

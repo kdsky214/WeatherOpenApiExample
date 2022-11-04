@@ -1,12 +1,15 @@
 package com.kd.example.weather.ui.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.GsonBuilder
-import com.kd.example.weather.data.model.WeatherData
+import com.kd.example.weather.data.model.WeatherModel
 import com.kd.example.weather.data.repository.WeatherRepository
-import com.kd.example.weather.util.observe
+import com.kd.example.weather.data.model.observe
+import com.kd.example.weather.data.type.LocationType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +22,15 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
     val TAG = "MainViewModel"
 
-    private var weatherDataList:MutableList<WeatherData> = mutableListOf()
+    private var _weatherList:MutableList<WeatherModel> = mutableListOf()
+    private var _weatherListMutableLiveData:MutableLiveData<List<WeatherModel>> = MutableLiveData()
+    val weatherListMutableLiveData:LiveData<List<WeatherModel>> = _weatherListMutableLiveData
+//    private var _londonWeatherMutableLiveData:MutableLiveData<List<WeatherData>> = MutableLiveData()
+//    val londonWeatherMutableLiveData:LiveData<List<WeatherData>> = _londonWeatherMutableLiveData
+//    private var _seoulWeatherMutableLiveData:MutableLiveData<List<WeatherData>> = MutableLiveData()
+//    val seoulWeatherMutableLiveData:LiveData<List<WeatherData>> = _seoulWeatherMutableLiveData
+//    private var _chicagoWeatherMutableLiveData:MutableLiveData<List<WeatherData>> = MutableLiveData()
+//    val chicagoWeatherMutableLiveData:LiveData<List<WeatherData>> = _chicagoWeatherMutableLiveData
 
     fun getCurrentWeather(){
         val lat = "42.9834"
@@ -27,16 +38,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO){
             weatherRepository.getCurrentWeather(lat, lon).observe(
                 onSuccess ={ response->
-                    val gson = GsonBuilder()
-                        .setPrettyPrinting()
-                        .create()
-
-                    val jsonOutput = gson.toJson(response)
-                    Log.e(TAG, "res = $jsonOutput")
-
-                    response?.let{
-
-                    }
+//                    Log.e(TAG, "res = $jsonOutput")
                 }, onError = {
                     Log.e(TAG," onError = $it")
                 }
@@ -47,18 +49,40 @@ class MainViewModel @Inject constructor(
     //지역 주간날씨 정보 가져오기
     fun getForecastWeather(){
         viewModelScope.launch(Dispatchers.IO){
-            weatherRepository.getLocationForecastWeather("London").observe(
+            //London data
+            weatherRepository.getLocationForecastWeather(LocationType.London.name).observe(
                 onSuccess ={ response->
-                    val gson = GsonBuilder()
-                        .setPrettyPrinting()
-                        .create()
-                    val jsonOutput = gson.toJson(response)
-//                    Log.e(TAG, "res = $jsonOutput")
+                    response?.let{ _weatherList.addAll(it) }
 
                 }, onError = {
-                    Log.e(TAG," onError = $it")
+                    //TODO:예외처리
+                    Log.e(TAG," London onError = $it")
                 }
             )
+            //Seoul data
+            weatherRepository.getLocationForecastWeather(LocationType.Seoul.name).observe(
+                onSuccess ={ response->
+                    response?.let{ _weatherList.addAll(it) }
+                }, onError = {
+                    //TODO:예외처리
+                    Log.e(TAG," London onError = $it")
+                }
+            )
+            //Chicago data
+            weatherRepository.getLocationForecastWeather(LocationType.Chicago.name).observe(
+                onSuccess ={ response->
+                    response?.let{ _weatherList.addAll(it) }
+                }, onError = {
+                    //TODO:예외처리
+                    Log.e(TAG,"London onError = $it")
+                }
+            )
+
+            //list add livedate
+            viewModelScope.launch(Dispatchers.Main){
+                _weatherListMutableLiveData.value = _weatherList
+            }
+
         }
     }
 }
