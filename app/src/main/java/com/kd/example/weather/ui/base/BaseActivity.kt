@@ -20,7 +20,7 @@ abstract class BaseActivity<T:ViewDataBinding> : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, layoutResourceId)
         binding.lifecycleOwner = this
-        hideSystemUI()
+//        hideSystemUI()
         initView()
         initObserver()
 

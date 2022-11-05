@@ -1,6 +1,6 @@
 package com.kd.example.weather.data.repository
 
-import com.kd.example.weather.data.model.weather.current.ResponseCurrentWeather
+import  com.kd.example.weather.data.model.weather.current.ResponseCurrentWeather
 import com.kd.example.weather.data.model.ResultData
 import com.kd.example.weather.data.model.WeatherModel
 

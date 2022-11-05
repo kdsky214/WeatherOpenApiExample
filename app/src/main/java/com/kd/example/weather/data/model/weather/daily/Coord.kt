@@ -1,4 +1,4 @@
-package com.kd.example.weather.data.model.weather.daily
+package  com.kd.example.weather.data.model.weather.daily
 
 data class Coord(
     val lat: Double,

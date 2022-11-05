@@ -28,11 +28,14 @@ object NetworkModule {
 
     @Provides
     @Named("retrofit")
-    fun providesRetrofitClient(@Named("okhttpClient") okHttpClient: OkHttpClient): Retrofit =
+    fun providesRetrofitClient(
+        @Named("okhttpClient") okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): Retrofit =
         Retrofit.Builder()
             .baseUrl(WeatherApiModule.BASE_WEATHER_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+//            .client(okHttpClient)
+            .addConverterFactory(gsonConverterFactory)
             .build()
 
     @Provides

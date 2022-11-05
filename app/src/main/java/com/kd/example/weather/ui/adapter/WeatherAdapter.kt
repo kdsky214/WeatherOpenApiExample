@@ -8,8 +8,10 @@ import com.bumptech.glide.Glide
 import com.kd.example.weather.application.WeatherApplication
 import com.kd.example.weather.data.model.WeatherModel
 import com.kd.example.weather.data.type.WeatherType
+import com.kd.example.weather.data.type.WeatherViewType
 import com.kd.example.weather.databinding.ItemWeatherDataViewBinding
 import com.kd.example.weather.databinding.ItemWeatherTitleViewBinding
+import com.kd.example.weather.module.MyGlide
 import kotlin.math.roundToInt
 
 //기본으로 6개의 데이터를 표현
@@ -19,28 +21,24 @@ class WeatherAdapter(
     private val isUseIconUrl = true
     //list
     private var weatherDataList:MutableList<WeatherModel> = mutableListOf()
-    //type
-    enum class ViewType{
-        TITLE,
-        CONTENT
-    }
+
 
     override fun getItemViewType(position: Int): Int {
         //title position check
         val titlePosition = position % (numberOfDay+1)
         return if(titlePosition == 0){
-            ViewType.TITLE.ordinal
+            WeatherViewType.TITLE.ordinal
         }else{
-            ViewType.CONTENT.ordinal
+            WeatherViewType.CONTENT.ordinal
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         return when(viewType){
-            ViewType.TITLE.ordinal ->{
+            WeatherViewType.TITLE.ordinal ->{
                 TitleViewHolder(ItemWeatherTitleViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             }
-            ViewType.CONTENT.ordinal->{
+            WeatherViewType.CONTENT.ordinal->{
                 ContentViewHolder(ItemWeatherDataViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             }
             else->{
@@ -109,7 +107,7 @@ class WeatherAdapter(
 
         //Url Image 사용
         fun setWeatherImageUrl(url:String){
-            Glide.with(binding.root).load(url).into(binding.imgWeather)
+            Glide.with(binding.root.context).load(url).into(binding.imgWeather)
         }
 
         //SVG Image 사용
@@ -123,4 +121,5 @@ class WeatherAdapter(
         }
 
     }
+
 }

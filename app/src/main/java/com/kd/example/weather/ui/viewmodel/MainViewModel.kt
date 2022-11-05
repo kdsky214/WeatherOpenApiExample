@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kd.example.weather.application.WeatherApplication
 import com.kd.example.weather.data.model.WeatherModel
 import com.kd.example.weather.data.repository.WeatherRepository
 import com.kd.example.weather.data.model.observe
@@ -38,7 +39,6 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO){
             weatherRepository.getCurrentWeather(lat, lon).observe(
                 onSuccess ={ response->
-//                    Log.e(TAG, "res = $jsonOutput")
                 }, onError = {
                     Log.e(TAG," onError = $it")
                 }
@@ -55,7 +55,7 @@ class MainViewModel @Inject constructor(
                     response?.let{ _weatherList.addAll(it) }
                 }, onError = {
                     //TODO:예외처리
-                    Log.e(TAG," London onError = $it")
+                    Log.e(TAG," Seoul onError = $it")
                 }
             )
             //London data
@@ -74,7 +74,7 @@ class MainViewModel @Inject constructor(
                     response?.let{ _weatherList.addAll(it) }
                 }, onError = {
                     //TODO:예외처리
-                    Log.e(TAG,"London onError = $it")
+                    Log.e(TAG,"Chicago onError = $it")
                 }
             )
 

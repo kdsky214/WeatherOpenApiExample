@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherTheme"
         android:usesCleartextTraffic="true"
+        android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
         <activity
             android:name=".ui.activity.MainActivity"

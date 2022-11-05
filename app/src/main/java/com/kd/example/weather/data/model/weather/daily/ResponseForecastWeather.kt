@@ -1,7 +1,8 @@
-package com.kd.example.weather.data.model.weather.daily
+package  com.kd.example.weather.data.model.weather.daily
+
 
 data class ResponseForecastWeather(
-    val city: City,
+    var city: City,
     val cnt: Int,
     val cod: String,
     val list: List<DailyWeather>,

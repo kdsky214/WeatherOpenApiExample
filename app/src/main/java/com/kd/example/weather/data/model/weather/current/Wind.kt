@@ -1,4 +1,4 @@
-package com.kd.example.weather.data.model.weather.current
+package  com.kd.example.weather.data.model.weather.current
 
 data class Wind(
     val deg: Int,

@@ -1,6 +1,5 @@
 package com.kd.example.weather.ui.activity
 
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,6 +7,7 @@ import com.google.gson.GsonBuilder
 import com.kd.example.weather.R
 import com.kd.example.weather.databinding.ActivityMainBinding
 import com.kd.example.weather.ui.adapter.WeatherAdapter
+import com.kd.example.weather.ui.adapter.decoration.CustomDivisionItemDecoration
 import com.kd.example.weather.ui.base.BaseActivity
 import com.kd.example.weather.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,27 +28,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             //높이 일정한사이즈
             this.setHasFixedSize(true)
             //ItemDecoration
-            val decoration = DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL)
-            this.addItemDecoration(decoration)
-
+//            val decoration = DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL)
+//            decoration.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_content))
+//            this.addItemDecoration(decoration)
+//            this.addItemDecoration(CustomDivisionItemDecoration(
+//                this@MainActivity,
+//                R.drawable.recyclerview_divider_title,
+//                R.drawable.recyclerview_divider_content,
+//            ))
             this.adapter = weatherAdapter
+
         }
+
     }
 
     override fun initObserver() {
-
-
         mainViewModel.weatherListMutableLiveData.observe(this){
             //Observe
-
-            val gson = GsonBuilder()
-                .setPrettyPrinting()
-                .create()
-//            Log.e("Activity", "observe : list => ${ gson.toJson(it)}")
-
             weatherAdapter.itemAddAll(it)
         }
-        mainViewModel.getCurrentWeather()
+//        mainViewModel.getCurrentWeather()
         mainViewModel.getForecastWeather()
     }
+
 }

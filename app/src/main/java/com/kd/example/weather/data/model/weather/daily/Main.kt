@@ -1,4 +1,4 @@
-package com.kd.example.weather.data.model.weather.daily
+package  com.kd.example.weather.data.model.weather.daily
 
 data class Main(
     val feels_like: Double,
