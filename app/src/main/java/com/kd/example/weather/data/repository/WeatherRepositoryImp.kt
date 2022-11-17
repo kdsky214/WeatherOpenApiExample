@@ -46,13 +46,15 @@ class WeatherRepositoryImp(
                 var weatherList = mutableListOf<WeatherModel>()
                 var checkDtText = ""
                 var number = 0
-                data?.let{
+                data.let{
                     checkDtText = data.list[0].dt_txt
                     data.list.forEachIndexed { index, dailyWeather ->
-                        val changeDateText = DateUtil.changeDateFormatString(dailyWeather.dt_txt,
-                            DateUtil.DEFAULT_DATE_FORMAT,
-                            DateUtil.DATE_FORMAT,
-                            Locale.UK)
+
+                        val changeDateText = DateUtil.changeDateFormat(
+                            dailyWeather.dt.toLong(),
+                            DateUtil.DATE_FORMAT
+                        )
+                        Log.e("repo","dt   : ${dailyWeather.dt_txt}  // ${changeDateText}")
                         val checkHourTime = DateUtil.getDateFormatToHour(dailyWeather.dt_txt)
 //                        Log.e("repo","dt   : ${dailyWeather.dt_txt}  ${checkHourTime}")
                         if(checkDtText != changeDateText && checkHourTime > 3){
