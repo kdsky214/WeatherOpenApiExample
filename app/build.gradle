@@ -5,7 +5,9 @@ plugins {
     id 'kotlin-parcelize'
     id 'com.google.dagger.hilt.android'
 }
-
+//use local.properties
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 android {
     namespace 'com.kd.example.weather'
     compileSdk 33
@@ -20,14 +22,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
     buildTypes {
         debug{
-            buildConfigField "String", "OPEN_WEATHER_MAP_API_KEY", "\"172a4ab26121b472d6c1099e711ccd44\""
+            buildConfigField "String", "OPEN_WEATHER_MAP_API_KEY", properties['api.key.openweather']
             debuggable true
             minifyEnabled false
         }
         release {
-            buildConfigField "String", "OPEN_WEATHER_MAP_API_KEY", "\"172a4ab26121b472d6c1099e711ccd44\""
+            buildConfigField "String", "OPEN_WEATHER_MAP_API_KEY", properties['api.key.openweather']
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
